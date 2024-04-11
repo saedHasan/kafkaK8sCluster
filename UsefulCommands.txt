@@ -1,0 +1,14 @@
+// to get the ca.p12 
+kubectl get secret my-cluster-cluster-ca-cert -n kafka-st -o jsonpath="{.data.'ca.p12'}" | base64 --decode > ca.p12
+
+ kubectl get secret my-cluster-cluster-ca-cert -n kafka-st -o jsonpath="{.data.ca\.crt}" | base64 --decode > ca1.crt
+
+// to get ca password 
+kubectl get secret my-cluster-cluster-ca-cert -n kafka-st -o jsonpath="{.data.ca\.password}" | base64 -d
+
+
+
+
+// to get user pass decoded 
+
+kubectl get secret my-user -n kafka-st -o jsonpath="{.data.password}" | base64 -d 
