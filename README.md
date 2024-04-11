@@ -1,6 +1,6 @@
 Step 1 : Verify Installtion of dependencies: 
 
-# Validate minikube
+<!--  Validate minikube --> 
 > minikube version
 
 # Validate kubectl
