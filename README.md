@@ -40,5 +40,38 @@ Once everything is up and running, you can   see the Kafka broker service and th
 
 > kubectl get services -n  kafka 
 
+# Step 5:Create user
+> kubectl apply -f users.yaml -n kafka-st --validate=false
+
+# Step 6: Create topics 
+> kubectl apply -f topic.yaml -n kafka-st --validate=false
+
+# Step 7: Get certificate for client and server
+
+> kubectl get secret my-cluster-cluster-ca-cert -n kafka-st -o jsonpath="{.data.ca\.p12}" | base64 --decode > ca.p12
+
+<!-- save the file ca.p12 and  passphrase in a secure place --> 
+# Step 8: Get the cert password decoded 
+
+> kubectl get secret my-cluster-cluster-ca-cert -n kafka-st -o jsonpath="{.data.ca\.password}" | base64 -d
+
+# Step 9: get the pass for my-user created: 
+
+> kubectl get secret my-user -n kafka-st -o jsonpath="{.data.password}" | base64 -d
+
+# Step 10: Since we are using loadbalancer in kafka cluster listner, we need to run below command in a separate  terminal window: 
+> minikube tunnel
+
+# Step 11: Conffigure the client code with below  details as an example if you want to connect to broker from code level. 
+
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9094");
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
+        properties.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG,"past-ca-password-here");
+        properties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "PATH-TO-CA/ca.p12");
+        properties.put(SaslConfigs.SASL_MECHANISM, "SCRAM-SHA-512");
+        properties.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"PAST-USER-NAME-HERE\" password=\"PAST-USER-PASS-HERE\";");
+
 
 
