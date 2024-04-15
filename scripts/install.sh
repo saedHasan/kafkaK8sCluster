@@ -3,6 +3,8 @@
 PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 cd $PARENT_PATH/..
 
+kubectl create namespace kafka
+
 # Setup Kafka Strimzi Operator   
 kubectl create -f https://strimzi.io/install/latest?namespace=kafka -n kafka
 
