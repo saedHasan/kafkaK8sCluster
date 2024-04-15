@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser
 metadata:
-  name: my-user
+  name: user-rebirth
   labels:
     strimzi.io/cluster: my-cluster
 spec:
@@ -10,29 +10,19 @@ spec:
   authorization:
     type: simple
     acls:
-      # Example consumer Acls for topic my-topic using consumer group my-group
       - resource:
           type: topic
-          name: my-topic
+          name: instance-rebirth
           patternType: literal
         operations:
           - Describe
           - Read
+          - Write
         host: "*"
       - resource:
           type: group
-          name: my-group
+          name: user-rebirth
           patternType: literal
         operations:
           - Read
-        host: "*"
-      # Example Producer Acls for topic my-topic
-      - resource:
-          type: topic
-          name: my-topic2
-          patternType: literal
-        operations:
-          - Create
-          - Describe
-          - Write
         host: "*"

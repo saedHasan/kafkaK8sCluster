@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: my-topic
+  name: instance-rebirth
   labels:
     strimzi.io/cluster: my-cluster
 spec:
@@ -11,15 +11,3 @@ spec:
     retention.ms: 7200000
     segment.bytes: 1073741824
 ---
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: my-topic2
-  labels:
-    strimzi.io/cluster: my-cluster
-spec:
-  partitions: 1
-  replicas: 1
-  config:
-    retention.ms: 7200000
-    segment.bytes: 1073741824
